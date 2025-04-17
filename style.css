@@ -1,0 +1,99 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  font-family: sans-serif;
+}
+
+.header {
+  margin: 20px 0;
+  display: flex;
+}
+
+.header button {
+  border: none;
+  font-size: 1.2em;
+}
+
+.bookContainer {
+  width: 1000px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: lightblue;
+}
+
+.bookCard {
+  width: 293px;
+  background-color: lightgrey;
+  padding: 2em;
+  margin: 20px;
+  border: 1px solid black;
+  border-radius: 10px;
+  flex: 1 1 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.bookCard h3 {
+  font-size: 2em;
+}
+
+.bookCard p {
+  font-size: 1em;
+  margin: 2px;
+}
+
+.bookCard p:first-of-type {
+  font-weight: bold;
+}
+
+.dialogOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.hidden {
+  display: none;
+}
+
+.dialogContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 25px 50px;
+  background-color: white;
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+.dialogInput {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5em;
+}
+
+.dialogButtons {
+  display: flex;
+  justify-content: center;
+  margin: 0.5em;
+  gap: 1em;
+}
+
+.dialogButtons button {
+  padding: 5px 10px;
+}
