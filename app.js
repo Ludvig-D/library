@@ -96,8 +96,6 @@ submitButton.addEventListener('click', (e) => {
   bookCard.appendChild(readBook);
   bookContainer.appendChild(bookCard);
 
-  console.log(myLibrary);
-
   titleInput.value = '';
   authorInput.value = '';
   pagesInput.value = '';
@@ -110,7 +108,6 @@ myLibrary.map((books) => {
   const bookCard = document.createElement('div');
   bookCard.classList.add('bookCard');
   bookCard.setAttribute('id', `${books.id}`);
-
   const bookTitle = document.createElement('h3');
   bookTitle.textContent = books.title;
   const bookAuthor = document.createElement('p');
@@ -121,7 +118,6 @@ myLibrary.map((books) => {
   readBook.textContent = books.read
     ? 'Has read this book'
     : 'Has not read this book';
-  console.log(books);
 
   bookCard.appendChild(bookTitle);
   bookCard.appendChild(bookAuthor);
