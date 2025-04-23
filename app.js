@@ -80,7 +80,7 @@ submitButton.addEventListener('click', (e) => {
 
   const bookCard = document.createElement('div');
   bookCard.classList.add('bookCard');
-  bookCard.id.add(`${id}`);
+  bookCard.setAttribute('id', `${crypto.randomUUID()}`);
   const bookTitle = document.createElement('h3');
   bookTitle.textContent = title;
   const bookAuthor = document.createElement('p');
