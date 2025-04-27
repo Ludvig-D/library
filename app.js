@@ -55,16 +55,16 @@ const loadBooks = (book) => {
   bookPages.textContent = `Has ${book.pages} pages`;
   const readDiv = document.createElement('div');
   const readBook = document.createElement('p');
-  const checkReadBox = document.createElement('input');
-  checkReadBox.type = 'checkbox';
-  checkReadBox.checked = book.read;
-  readBook.textContent = book.read ? 'Read book' : 'Not read yet';
+  const readYorN = document.createElement('p');
+  readBook.textContent = 'Read: ';
+  readYorN.textContent = book.read ? 'Yes' : 'No';
+  readYorN.classList.add(book.read ? 'yesRead' : 'noRead');
 
   bookCard.appendChild(bookTitle);
   bookCard.appendChild(bookAuthor);
   bookCard.appendChild(bookPages);
-  readDiv.appendChild(checkReadBox);
   readDiv.appendChild(readBook);
+  readDiv.appendChild(readYorN);
   bookCard.appendChild(readDiv);
   bookContainer.appendChild(bookCard);
 };
