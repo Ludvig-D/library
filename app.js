@@ -40,16 +40,34 @@ function Book(title, author, pages, read) {
   this.pages = pages;
   this.read = read;
   this.id = crypto.randomUUID();
-  this.info = function () {
-    return `${title} by ${author}, ${pages} pages, ${
-      read ? 'read' : 'not read yet'
-    }`;
-  };
 }
 
-const cantHurtUs = new Book("Can't hurt us", 'David Goggins', 250, true);
+const loadBooks = (book) => {
+  const bookCard = document.createElement('div');
+  bookCard.classList.add('bookCard');
+  bookCard.setAttribute('id', `${book.id}`);
+  const bookTitle = document.createElement('h3');
+  bookTitle.textContent = book.title;
+  const bookAuthor = document.createElement('p');
+  bookAuthor.classList.add('bookAuthor');
+  bookAuthor.textContent = `by ${book.author}`;
+  const bookPages = document.createElement('p');
+  bookPages.textContent = `Has ${book.pages} pages`;
+  const readDiv = document.createElement('div');
+  const readBook = document.createElement('p');
+  const checkReadBox = document.createElement('input');
+  checkReadBox.type = 'checkbox';
+  checkReadBox.checked = book.read;
+  readBook.textContent = book.read ? 'Read book' : 'Not read yet';
 
-myLibrary.push(cantHurtUs);
+  bookCard.appendChild(bookTitle);
+  bookCard.appendChild(bookAuthor);
+  bookCard.appendChild(bookPages);
+  readDiv.appendChild(checkReadBox);
+  readDiv.appendChild(readBook);
+  bookCard.appendChild(readDiv);
+  bookContainer.appendChild(bookCard);
+};
 
 const addBook = document.querySelector('.addBook');
 const submitButton = document.querySelector('#submitButton');
@@ -67,6 +85,10 @@ addBook.addEventListener('click', () => {
 
 cancelButton.addEventListener('click', (e) => {
   e.preventDefault();
+  titleInput.value = '';
+  authorInput.value = '';
+  pagesInput.value = '';
+  readCheckbox.checked = false;
   dialogOverlay.classList.add('hidden');
 });
 
@@ -78,24 +100,7 @@ submitButton.addEventListener('click', (e) => {
   let read = readCheckbox.checked;
   myLibrary.push(new Book(title, author, pages, read));
 
-  const bookCard = document.createElement('div');
-  bookCard.classList.add('bookCard');
-  bookCard.setAttribute('id', `${crypto.randomUUID()}`);
-  const bookTitle = document.createElement('h3');
-  bookTitle.textContent = title;
-  const bookAuthor = document.createElement('p');
-  bookAuthor.textContent = `by ${author}`;
-  const bookPages = document.createElement('p');
-  bookPages.textContent = `Has ${pages} pages`;
-  const readBook = document.createElement('p');
-  readBook.textContent = read ? 'Has read this book' : 'Has not read this book';
-
-  bookCard.appendChild(bookTitle);
-  bookCard.appendChild(bookAuthor);
-  bookCard.appendChild(bookPages);
-  bookCard.appendChild(readBook);
-  bookContainer.appendChild(bookCard);
-
+  loadBooks({ title, author, pages, read });
   titleInput.value = '';
   authorInput.value = '';
   pagesInput.value = '';
@@ -105,23 +110,5 @@ submitButton.addEventListener('click', (e) => {
 });
 
 myLibrary.map((books) => {
-  const bookCard = document.createElement('div');
-  bookCard.classList.add('bookCard');
-  bookCard.setAttribute('id', `${books.id}`);
-  const bookTitle = document.createElement('h3');
-  bookTitle.textContent = books.title;
-  const bookAuthor = document.createElement('p');
-  bookAuthor.textContent = `by ${books.author}`;
-  const bookPages = document.createElement('p');
-  bookPages.textContent = `Has ${books.pages} pages`;
-  const readBook = document.createElement('p');
-  readBook.textContent = books.read
-    ? 'Has read this book'
-    : 'Has not read this book';
-
-  bookCard.appendChild(bookTitle);
-  bookCard.appendChild(bookAuthor);
-  bookCard.appendChild(bookPages);
-  bookCard.appendChild(readBook);
-  bookContainer.appendChild(bookCard);
+  loadBooks(books);
 });

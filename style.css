@@ -15,11 +15,24 @@ body {
 .header {
   margin: 20px 0;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.header h1 {
+  display: inline;
+  text-align: center;
 }
 
 .header button {
   border: none;
+  border-radius: 5px;
+  cursor: pointer;
   font-size: 1.2em;
+  padding: 5px 20px;
+  font-weight: bold;
+  display: inline-block;
 }
 
 .bookContainer {
@@ -50,8 +63,12 @@ body {
   margin: 2px;
 }
 
-.bookCard p:first-of-type {
+.bookAuthor {
   font-weight: bold;
+}
+
+.bookCard div {
+  display: flex;
 }
 
 .dialogOverlay {
@@ -95,5 +112,7 @@ body {
 }
 
 .dialogButtons button {
+  font-weight: bold;
   padding: 5px 10px;
+  font-size: 1em;
 }
