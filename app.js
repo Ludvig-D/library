@@ -1,35 +1,6 @@
 const bookContainer = document.querySelector('.bookContainer');
 
-const myLibrary = [
-  {
-    author: 'David Goggins',
-    id: '5257d7d7-6d0e-4327-859e-8c5f402fb290',
-    pages: 250,
-    read: true,
-    title: "Can't hurt us",
-  },
-  {
-    author: 'David Goggins',
-    id: '5257d7d7-6d0e-4327-859e-8c5f402fb292',
-    pages: 250,
-    read: true,
-    title: "Can't hurt us",
-  },
-  {
-    author: 'David Goggins',
-    id: '5257d7d7-6d0e-4327-859e-8c5f402fb293',
-    pages: 250,
-    read: true,
-    title: "Can't hurt us",
-  },
-  {
-    author: 'David Goggins',
-    id: '5257d7d7-6d0e-4327-859e-8c5f402fb298',
-    pages: 250,
-    read: false,
-    title: "Can't hurt us",
-  },
-];
+const myLibrary = [];
 
 function Book(title, author, pages, read) {
   if (!new.target) {
@@ -42,10 +13,37 @@ function Book(title, author, pages, read) {
   this.id = crypto.randomUUID();
 }
 
-const loadBooks = (book) => {
+myLibrary.push(
+  new Book(
+    (title = "Can't hurt me"),
+    (author = 'David Goggins'),
+    (pages = 364),
+    (read = true)
+  ),
+  new Book(
+    (title = 'Never Finished'),
+    (author = 'David Goggins'),
+    (pages = 312),
+    (read = false)
+  ),
+  new Book(
+    (title = 'Atomic Habits'),
+    (author = 'James Clear'),
+    (pages = 320),
+    (read = true)
+  ),
+  new Book(
+    (title = '48 Laws of Power'),
+    (author = 'Robert Greene'),
+    (pages = 452),
+    (read = false)
+  )
+);
+
+const loadBooks = (book, index = 0) => {
   const bookCard = document.createElement('div');
   bookCard.classList.add('bookCard');
-  bookCard.setAttribute('id', `${book.id}`);
+  bookCard.setAttribute('data-index', `${index}`);
   const bookTitle = document.createElement('h3');
   bookTitle.textContent = book.title;
   const bookAuthor = document.createElement('p');
@@ -54,20 +52,30 @@ const loadBooks = (book) => {
   const bookPages = document.createElement('p');
   bookPages.textContent = `Has ${book.pages} pages`;
   const readDiv = document.createElement('div');
+  readDiv.classList.add('readDiv');
+  const read = document.createElement('p');
   const readBook = document.createElement('p');
-  const readYorN = document.createElement('p');
-  readBook.textContent = 'Read: ';
-  readYorN.textContent = book.read ? 'Yes' : 'No';
-  readYorN.classList.add(book.read ? 'yesRead' : 'noRead');
+  read.textContent = 'Read: ';
+  readBook.textContent = book.read ? 'Yes' : 'No';
+  readBook.classList.add('clickRead');
+  readBook.classList.add(book.read ? 'yesRead' : 'noRead');
+  const delButton = document.createElement('button');
+  delButton.textContent = 'Delete Book';
+  delButton.classList.add('delButton');
 
   bookCard.appendChild(bookTitle);
   bookCard.appendChild(bookAuthor);
   bookCard.appendChild(bookPages);
+  readDiv.appendChild(read);
   readDiv.appendChild(readBook);
-  readDiv.appendChild(readYorN);
   bookCard.appendChild(readDiv);
+  bookCard.appendChild(delButton);
   bookContainer.appendChild(bookCard);
 };
+
+myLibrary.map((books, index) => {
+  loadBooks(books, index);
+});
 
 const addBook = document.querySelector('.addBook');
 const submitButton = document.querySelector('#submitButton');
@@ -100,7 +108,15 @@ submitButton.addEventListener('click', (e) => {
   let read = readCheckbox.checked;
   myLibrary.push(new Book(title, author, pages, read));
 
-  loadBooks({ title, author, pages, read });
+  removeReadUpdater();
+
+  while (bookContainer.firstChild) {
+    bookContainer.removeChild(bookContainer.firstChild);
+  }
+  myLibrary.map((books, index) => {
+    loadBooks(books, index);
+  });
+  addReadUpdater();
   titleInput.value = '';
   authorInput.value = '';
   pagesInput.value = '';
@@ -109,6 +125,38 @@ submitButton.addEventListener('click', (e) => {
   dialogOverlay.classList.add('hidden');
 });
 
-myLibrary.map((books) => {
-  loadBooks(books);
+const clickhandler = (e) => {
+  if (e.target.textContent === 'Yes') {
+    e.target.textContent = 'No';
+    e.target.classList.remove('yesRead');
+    e.target.classList.add('noRead');
+  } else {
+    e.target.textContent = 'Yes';
+    e.target.classList.remove('noRead');
+    e.target.classList.add('yesRead');
+  }
+};
+
+function removeReadUpdater() {
+  const clickReads = document.querySelectorAll('.clickRead');
+  clickReads.forEach((clickRead) => {
+    clickRead.removeEventListener('click', clickhandler);
+  });
+}
+
+function addReadUpdater() {
+  const clickReads = document.querySelectorAll('.clickRead');
+  clickReads.forEach((clickRead) => {
+    clickRead.addEventListener('click', clickhandler);
+  });
+}
+
+addReadUpdater();
+
+const delButtons = document.querySelectorAll('.delButton');
+
+delButtons.forEach((delButton) => {
+  delButton.addEventListener('click', () => {
+    delButton.parentElement.parentElement.removeChild(delButton.parentElement);
+  });
 });
