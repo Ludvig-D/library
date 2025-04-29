@@ -108,7 +108,23 @@ submitButton.addEventListener('click', (e) => {
   let read = readCheckbox.checked;
   myLibrary.push(new Book(title, author, pages, read));
 
-  removeReadUpdater();
+  () => {
+    const clickReads = document.querySelectorAll('.clickRead');
+    clickReads.forEach((clickRead) => {
+      clickRead.removeEventListener('click', clickhandler);
+    });
+  };
+
+  () => {
+    const delButtons = document.querySelectorAll('.delButton');
+    delButtons.forEach((delButton) => {
+      delButton.removeEventListener('click', () => {
+        delButton.parentElement.parentElement.removeChild(
+          delButton.parentElement
+        );
+      });
+    });
+  };
 
   while (bookContainer.firstChild) {
     bookContainer.removeChild(bookContainer.firstChild);
@@ -116,7 +132,10 @@ submitButton.addEventListener('click', (e) => {
   myLibrary.map((books, index) => {
     loadBooks(books, index);
   });
+
   addReadUpdater();
+  addDelButton();
+
   titleInput.value = '';
   authorInput.value = '';
   pagesInput.value = '';
@@ -137,13 +156,6 @@ const clickhandler = (e) => {
   }
 };
 
-function removeReadUpdater() {
-  const clickReads = document.querySelectorAll('.clickRead');
-  clickReads.forEach((clickRead) => {
-    clickRead.removeEventListener('click', clickhandler);
-  });
-}
-
 function addReadUpdater() {
   const clickReads = document.querySelectorAll('.clickRead');
   clickReads.forEach((clickRead) => {
@@ -153,10 +165,16 @@ function addReadUpdater() {
 
 addReadUpdater();
 
-const delButtons = document.querySelectorAll('.delButton');
-
-delButtons.forEach((delButton) => {
-  delButton.addEventListener('click', () => {
-    delButton.parentElement.parentElement.removeChild(delButton.parentElement);
+function addDelButton() {
+  const delButtons = document.querySelectorAll('.delButton');
+  delButtons.forEach((delButton) => {
+    delButton.addEventListener('click', () => {
+      delButton.parentElement.parentElement.removeChild(
+        delButton.parentElement
+      );
+      myLibrary.splice(delButton.parentElement.dataset.index, 1);
+    });
   });
-});
+}
+
+addDelButton();
