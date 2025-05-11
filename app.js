@@ -149,12 +149,19 @@ const clickhandler = (e) => {
     e.target.textContent = 'No';
     e.target.classList.remove('yesRead');
     e.target.classList.add('noRead');
+    readUpdater(e);
   } else {
     e.target.textContent = 'Yes';
     e.target.classList.remove('noRead');
     e.target.classList.add('yesRead');
+    readUpdater(e);
   }
 };
+
+function readUpdater(e) {
+  let index = e.target.parentElement.parentElement.dataset.index;
+  myLibrary[index].read = !myLibrary[index].read;
+}
 
 function addReadUpdater() {
   const clickReads = document.querySelectorAll('.clickRead');
